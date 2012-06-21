@@ -1,0 +1,15 @@
+c 9th DIMACS Implementation Challenge: Shortest Paths
+c http://www.dis.uniroma1.it/~challenge9
+c Sample node coords aux file
+c
+p aux sp co 6
+c coordinates of 6 nodes
+c
+v 1 10 20
+c node with id 1 has coordinate (10,20) in the plane
+c
+v 2 20 20
+v 3 30 20
+v 4 10 40
+v 5 20 40
+v 6 30 40
