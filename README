@@ -1,0 +1,57 @@
+Tway: Two-way astar and more
+============================
+
+This currently implements two-way astar search. You need to have boost , 
+Note: I have updated for Boost 1.47 for fedora 16.
+Note that older versions of boost require older releases from tway at sourceforge.
+
+
+Compile:
+=======
+
+To compile on linux, just type make in src directory
+$ make
+$make test
+
+test_tway : test program for two-way astar
+test_tway : test program for regular boost astar, used for benchmarking.
+
+Syntax
+======
+Interactive version:
+$ ./test_tway GRAPHFILE COORDSFILE 
+QueryFile Version:
+$ ./test_tway GRAPHFILE COORDSFILE QUERYFILE
+Command Line Version:
+$ ./test_tway GRAPHFILE COORDSFILE SOURCE TARGET
+
+where
+
+GRAPHFILE : dimacs format Graph File, see data/sample.gr
+COORDSFILE : dimacs format Graph File, see data/sample.gr
+QUERYFILE : Dimacs p2p Query File, see data/sample.p2p
+
+You can find more details on dimacs format at http://www.dis.uniroma1.it/~challenge9/
+
+Test Data and Benchmarking
+==========================
+
+You can find several data files on http://www.dis.uniroma1.it/~challenge9/download.shtml
+
+For example to use data for NY city
+
+http://www.dis.uniroma1.it/~challenge9/data/USA-road-d/USA-road-d.NY.gr.gz
+http://www.dis.uniroma1.it/~challenge9/data/USA-road-d/USA-road-d.NY.co.gz
+
+You can use tools/generate_problem.sh to generate a sample test file 
+tools/generate_problem.sh 264346 100 > USA-road-d.NY.test.p2p
+
+
+./test_astar USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
+./test_tway USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
+
+
+On my machine, the above takes 32 (+1) ms for astar , 22 (+1) ms for tway
+
+Have Fun,
+SRC
