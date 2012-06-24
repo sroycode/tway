@@ -43,15 +43,15 @@ For example to use data for NY city
 http://www.dis.uniroma1.it/~challenge9/data/USA-road-d/USA-road-d.NY.gr.gz
 http://www.dis.uniroma1.it/~challenge9/data/USA-road-d/USA-road-d.NY.co.gz
 
-You can use tools/generate_problem.sh to generate a sample test file 
-tools/generate_problem.sh 264346 100 > USA-road-d.NY.test.p2p
+You can use tools/generate_problem.sh to generate a sample test file of 100 problems
+$ ../tools/generate_problem.sh 264346 100 > USA-road-d.NY.test.p2p
 
 
-./test_astar USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
-./test_tway USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
+$ ./test_astar USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
+$ ./test_tway USA-road-d.NY.gr USA-road-d.NY.co USA-road-d.NY.test.p2p
 
 
-On my machine, the above takes 32 (+1) ms for astar , 22 (+1) ms for tway
+On my machine, the above takes avg 32 (+1) ms for astar , 22 (+1) ms for tway
 
 Have Fun,
 SRC
