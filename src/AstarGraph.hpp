@@ -17,6 +17,7 @@
 #include <vector>
 #include <cstdlib>
 #include <boost/graph/astar_search.hpp>
+#include <cmath>
 
 namespace TestAstar {
 /** xNode: struct to hold node */
@@ -48,7 +49,7 @@ private:
 };
 
 /**
- * distance_heuristic: astar distance calc heuristic, implements manhattan dist
+ * distance_heuristic: astar distance calc heuristic, default square, optional manhattan
  */
 template<typename GraphType>
 struct distance_heuristic : public boost::astar_heuristic<GraphType, U_INT> {
@@ -56,12 +57,17 @@ public:
 	typedef typename boost::graph_traits<GraphType>::vertex_descriptor vertex_descriptor;
 	distance_heuristic(GraphType& g, vertex_descriptor goal) : m_g(g), m_goal(goal) {}
 	inline U_INT operator()(vertex_descriptor u) {
-		return ( labs( m_g[m_goal].x - m_g[u].x) + labs( m_g[m_goal].y - m_g[u].y) )/2;
+#ifdef USE_MANHATTAN_DISTANCE
+		return (labs(m_g[m_goal].x - m_g[u].x) + labs( m_g[m_goal].y - m_g[u].y))/2;
+#else
+		return pow(m_g[m_goal].x - m_g[u].x,2) + pow(m_g[m_goal].y - m_g[u].y,2);
+#endif
 	}
 private:
 	GraphType& m_g;
 	vertex_descriptor m_goal;
 };
+
 class AstarGraph {
 
 public:

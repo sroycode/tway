@@ -16,10 +16,10 @@ test_tway:	TestTway.o
 test_astar:	TestAstar.o
 	$(CC) $(CCFLAGS) $(LDFLAGS) -o test_astar TestAstar.o 
 
-TestTway.o:	TestProgram.cc
+TestTway.o:	TestProgram.cc TwayAstarGraph.hpp
 	$(CC) -c $(CCFLAGS) -DCOMPILE_WITH_TWAY TestProgram.cc -o TestTway.o
 
-TestAstar.o:	TestProgram.cc
+TestAstar.o:	TestProgram.cc AstarGraph.hpp
 	$(CC) -c $(CCFLAGS) -DCOMPILE_WITH_ASTAR TestProgram.cc -o TestAstar.o
 
 test:
