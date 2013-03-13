@@ -1,7 +1,9 @@
 CC = g++
-BOOST_TWAY_INCLUDE = ../include
-CCFLAGS = -ansi -Wall -Wno-deprecated -O2 -DNDEBUG -I$(BOOST_TWAY_INCLUDE)
-LDFLAGS = -rdynamic
+OSX_INCLUDE=-I/opt/local/include
+OSX_LIB=-L/opt/local/lib
+BOOST_TWAY_INCLUDE = -I../include
+CCFLAGS = -ansi -Wall -Wno-deprecated -O2 -DNDEBUG $(BOOST_TWAY_INCLUDE) $(OSX_INCLUDE)
+LDFLAGS = -rdynamic $(OSX_LIBS)
 DATADIR = ../data
 
 EXECS = test_tway test_astar

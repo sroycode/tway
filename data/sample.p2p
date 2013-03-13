@@ -2,7 +2,7 @@ c 9th DIMACS Implementation Challenge: Shortest Paths
 c http://www.dis.uniroma1.it/~challenge9
 c Sample point-to-point problem specification file
 c
-p aux sp p2p 3
+p aux sp p2p 4
 c contains 3 query pairs
 c
 c first two to pass
@@ -10,4 +10,5 @@ q 1 5
 q 1 2
 c third to fail
 q 5 1
+q 1 6
 

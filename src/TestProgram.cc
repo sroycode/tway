@@ -43,7 +43,7 @@ void use_io(TestAstar::ReadDimacs& R, TESTPROG& S)
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "Invalid Target " << std::endl;
 		}
-		if ( (src>=R.GetNodes()) || (trg>=R.GetNodes()) ) {
+		if ( (src>=R.GetNodes()) || (trg>R.GetNodes()) ) {
 			std::cout << "\n Please use input range " << R.GetNodes() << std::endl;
 			continue;
 		}
@@ -58,37 +58,63 @@ void use_io(TestAstar::ReadDimacs& R, TESTPROG& S)
 }
 // use file
 struct Cont {
-	typedef std::vector<std::pair<U_INT,U_INT> > ListT;
-	ListT inlist;
-	void add(U_INT s,U_INT t) {
-		inlist.push_back(ListT::value_type(s,t));
+	typedef std::vector<std::pair<U_INT,U_INT> > VecPairT;
+	typedef std::list<U_INT> ListT;
+	typedef std::vector<ListT> VecListT;
+	VecPairT inlist;
+	VecListT outlist;
+	void addin(U_INT s,U_INT t) {
+		inlist.push_back(VecPairT::value_type(s,t));
+	}
+	void addout(std::list<U_INT> v) {
+		outlist.push_back(v);
 	}
 	size_t size() {
 		return inlist.size();
+	}
+	void print() {
+		if (inlist.size()!=outlist.size()) {
+			std::cerr << " Somewhere this broke " << std::endl;
+			return;
+		}
+		for (std::size_t i=0;i<inlist.size();++i) {
+			std::cout << "[" << inlist[i].first << " -> " << inlist[i].second << "] ";
+			for (ListT::const_iterator jt=outlist[i].begin(); jt!=outlist[i].end(); ++jt) {
+				std::cout << " - " << *jt ;
+			}
+			std::cout << std::endl;
+		}
 	}
 };
 
 void use_file(TestAstar::ReadDimacs& R, TESTPROG& S,char *problem_file)
 {
 	Cont C;
-	R.Process_P2P_Problem_File(problem_file,boost::bind(boost::mem_fn(&Cont::add),&C,_1,_2));
+	std::list<U_INT> blanklist;
+	R.Process_P2P_Problem_File(problem_file,boost::bind(boost::mem_fn(&Cont::addin),&C,_1,_2));
 	size_t county=0,countn=0;
 	std::cout << "\nStarting  " << std::endl;
 	U_INT t=TestAstar::timer();
-	for (Cont::ListT::const_iterator it=C.inlist.begin(); it!=C.inlist.end(); ++it) {
+	for (Cont::VecPairT::const_iterator it=C.inlist.begin(); it!=C.inlist.end(); ++it) {
 		U_INT cost=0;
 		std::list<U_INT> vlist;
 		bool bStat = S.Search(it->first,it->second,vlist,cost);
-		if (bStat) ++county ;
-		else ++countn;
+		if (bStat) {
+			C.addout(vlist);
+			++county ;
+		} else {
+			C.addout(blanklist);
+			++countn;
+		}
 	}
 	t=TestAstar::timer(t);
-	std::cout << " Time " << std::setw(10) << t <<  " Ave " << std::setw(10) << (long int)(t/C.size()) << std::endl;
-	std::cout << "  Success " << std::setw(10) << county <<  " Fail " << std::setw(10) << countn << std::endl;
+	std::cout << " Time " << t <<  ", Ave " << (long int)(t/C.size());
+	std::cout << ",Success " << county << ",Fail " << countn << std::endl;
+	C.print();
 }
 void use_cmdline(TestAstar::ReadDimacs& R, TESTPROG& S,U_INT src, U_INT trg)
 {
-	if ( (src>=R.GetNodes()) || (trg>=R.GetNodes()) ) {
+	if ( (src>=R.GetNodes()) || (trg>R.GetNodes()) ) {
 		std::cout << "\n Please use input range " << R.GetNodes() << std::endl;
 		exit(1);
 	}
