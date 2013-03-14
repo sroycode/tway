@@ -19,7 +19,6 @@
 #include "ReadDimacs.hpp"
 
 // #define USE_MANHATTAN_DISTANCE 1
-#define USE_MANHATTAN_DISTANCE 1
 
 #ifdef COMPILE_WITH_ASTAR
 #include "AstarGraph.hpp"
